@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- thank you for https://javascript30.com/ -->
 <!-- egecan kahyaoglu lab 200406015 georgian college -->
+<!-- thank you for https://javascript30.com/ -->
+
 <head>
   <meta charset="UTF-8" />
   <title>Type Ahead 👀</title>
@@ -97,22 +98,22 @@
   </form>
   <script>
     const endpoint =
-      "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+      "http://gist.githubusercontent.com/tdreyno/4278655/raw/7b0762c09b519f40397e4c3e100b097d861f5588/airports.json";
 
-    let cities = [];
+    let codes = [];
     fetch(endpoint)
       .then(data => data.json())
-      .then(data => (cities.push(...data)));
+      .then(data => (codes.push(...data)));
 
-    console.log(cities);
+    console.log(codes);
 
 
-    function findMatch(wordToMatch, cities) {
+    function findMatch(wordToMatch, codes) {
 
-      return cities.filter(place => {
+      return codes.filter(place => {
 
-        const regex = new RegExp(wordToMatch, 'gi');
-        return place.city.match(regex) || place.state.match(regex)
+        const regex = new RegExp(wordToMatch, 'gi');//global falan filan bunun acilimi
+        return place.code.match(regex) || place.name.match(regex) || place.city.match(regex)
 
       })
 
@@ -120,11 +121,11 @@
 
     function displayMatches() {
 
-      const matchArray = findMatch(this.value, cities);
+      const matchArray = findMatch(this.value, codes);
       let html = matchArray.map(place => {
         return `
         <li>
-        <span class="name">${place.city}, ${place.state}</span>
+        <span class="name">${place.code}, ${place.name}, ${place.state}</span>
         <span class="population">${place.population}</span>
         </li>
         `;
